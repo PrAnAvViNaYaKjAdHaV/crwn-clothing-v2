@@ -1,7 +1,18 @@
-import "./App.style.scss";
-import CategoryMenue from "./Components/Category-menue/category-menue.components";
+import { Route, Routes } from "react-router-dom";
+import Home from "./routes/home/home.component";
+import Navigation from "./routes/ navigation/navigation.component";
+const Shop = () => {
+  return <div>I am the shop container</div>;
+};
 const App = () => {
-  return <CategoryMenue />;
+  return (
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+      </Route>
+    </Routes>
+  );
 };
 
 export default App;
