@@ -6,28 +6,40 @@ import {
   selectCartTotal,
 } from "../../store/cart/cart.selector";
 import emailjs from "emailjs-com";
+import { selectCurrentUser } from "../../store/user/user.selector";
 const PaymentForm = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
-  const [fromName, setFormName] = useState("");
-  const [fromEmail, setFormEmail] = useState("");
+  const User = useSelector(selectCurrentUser);
+  const [fromName, setFormName] = useState();
+  const [phoneNumber, setFornumber] = useState();
   const [item, setItem] = useState(cartItems);
   const [total, setTotal] = useState();
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState();
+  console.log(total);
   useEffect(() => {
     const items = cartItems.map((data) => [data.name + "=" + data.quantity]);
     setItem(items.toString());
     setTotal(cartTotal.toString());
   }, [cartTotal]);
-
   function sendEmail(e) {
+    if (
+      phoneNumber === null ||
+      item === null ||
+      total === null ||
+      User === null ||
+      address === null
+    ) {
+      return;
+    }
     e.preventDefault();
     const emailConstant = {
       from_name: fromName,
-      from_email: fromEmail,
+      from_email: User.email,
       item: item,
       total: total,
       address: address,
+      from_number: phoneNumber,
     };
     emailjs
       .send(
@@ -57,11 +69,11 @@ const PaymentForm = () => {
         />
       </div>
       <div>
-        <label>Email</label>
+        <label>Phone Number</label>
         <input
-          type="email"
-          name="from_email"
-          onChange={(e) => setFormEmail(e.target.value)}
+          type="number"
+          name="from_number"
+          onChange={(e) => setFornumber(e.target.value)}
         />
       </div>
       <div>
@@ -69,7 +81,14 @@ const PaymentForm = () => {
         <textarea name="address" onChange={(e) => setAddress(e.target.value)} />
       </div>
 
-      <input type="submit" value="Send" onClick={(e) => sendEmail(e)} />
+      <input
+        type="submit"
+        value="Order"
+        onClick={(e) => sendEmail(e)}
+        style={{
+          background: User === null || total === "0" ? "gray" : "green",
+        }}
+      />
     </form>
   );
 };

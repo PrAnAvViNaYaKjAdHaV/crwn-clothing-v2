@@ -1,5 +1,5 @@
-import { CartItemContainer, ItemDetails } from './cart-item.styles';
-
+import { CartItemContainer, ItemDetails } from "./cart-item.styles";
+import { BiRupee } from "react-icons/bi";
 const CartItem = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
   return (
@@ -8,7 +8,8 @@ const CartItem = ({ cartItem }) => {
       <ItemDetails>
         <span>{name}</span>
         <span>
-          {quantity} x ${price}
+          {quantity} x <BiRupee />
+          {price}
         </span>
       </ItemDetails>
     </CartItemContainer>
