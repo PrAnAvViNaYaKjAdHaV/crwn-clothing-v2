@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./payment-form.styles.css";
+import { orderComplete } from "./../../store/cart/cart.action";
 import {
   selectCartItems,
   selectCartTotal,
@@ -16,7 +18,7 @@ const PaymentForm = () => {
   const [item, setItem] = useState(cartItems);
   const [total, setTotal] = useState();
   const [address, setAddress] = useState();
-  console.log(total);
+  const dispatch = useDispatch();
   useEffect(() => {
     const items = cartItems.map((data) => [data.name + "=" + data.quantity]);
     setItem(items.toString());
@@ -51,6 +53,7 @@ const PaymentForm = () => {
       .then(
         (result) => {
           window.location.reload();
+          dispatch(orderComplete());
         },
         (error) => {
           console.log(error.text);
