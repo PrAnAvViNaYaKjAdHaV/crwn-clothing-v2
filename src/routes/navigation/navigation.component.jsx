@@ -8,7 +8,7 @@ import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component
 import { selectIsCartOpen } from '../../store/cart/cart.selector';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import { signOutStart } from '../../store/user/user.action';
-
+import SearchBar from '../../components/SearchBar/SearchBar.component';
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
 
 import {
@@ -31,6 +31,7 @@ const Navigation = () => {
         <LogoContainer to='/'>
           <CrwnLogo className='logo' />
         </LogoContainer>
+        {currentUser && <SearchBar />}
         <NavLinks>
           <NavLink to='/shop'>SHOP</NavLink>
 
