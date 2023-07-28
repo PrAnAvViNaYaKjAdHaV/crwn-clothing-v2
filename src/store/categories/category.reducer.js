@@ -4,6 +4,7 @@ export const CATEGORIES_INITIAL_STATE = {
   categories: [],
   isLoading: false,
   error: null,
+  product: {},
 };
 
 export const categoriesReducer = (
@@ -19,6 +20,8 @@ export const categoriesReducer = (
       return { ...state, categories: payload, isLoading: false };
     case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILED:
       return { ...state, error: payload, isLoading: false };
+    case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_PRODUCT:
+      return { ...state, product: payload };
     default:
       return state;
   }
