@@ -34,7 +34,9 @@ const Navigation = () => {
         {currentUser && <SearchBar />}
         <NavLinks>
           <NavLink to='/shop'>SHOP</NavLink>
-
+          <NavLink to='/history'>
+            History
+          </NavLink>
           {currentUser ? (
             <NavLink as='span' onClick={signOutUser}>
               SIGN OUT

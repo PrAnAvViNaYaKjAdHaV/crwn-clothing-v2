@@ -9,6 +9,7 @@ import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 import Product from './components/product/product.component';
+import History from './routes/history/history.component';
 import { checkUserSession } from './store/user/user.action';
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='auth' element={<Authentication />} />
         <Route path='checkout' element={<Checkout />} />
         <Route path=':id' element={<Product />} />
+        <Route path='history' element={<History />} />
       </Route>
     </Routes>
   );

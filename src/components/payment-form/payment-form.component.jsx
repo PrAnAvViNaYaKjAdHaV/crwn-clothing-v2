@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import "./payment-form.styles.css";
 import { orderComplete } from "./../../store/cart/cart.action";
+import { userUpdateHisotryStart } from './../../store/user/user.action'
 import {
   selectCartItems,
   selectCartTotal,
 } from "../../store/cart/cart.selector";
 import emailjs from "emailjs-com";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { createUserHistory } from '../../utils/firebase/firebase.utils'
 const PaymentForm = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
@@ -24,7 +26,6 @@ const PaymentForm = () => {
     setItem(items.toString());
     setTotal(cartTotal.toString());
   }, [cartTotal]);
-  console.log(fromName, phoneNumber, item, total, address);
   function sendEmail(e) {
     e.preventDefault();
     if (
@@ -37,6 +38,7 @@ const PaymentForm = () => {
       console.log("return");
       return;
     } else {
+      dispatch(userUpdateHisotryStart(User, cartItems))
       const emailConstant = {
         from_name: fromName,
         from_email: User.email,

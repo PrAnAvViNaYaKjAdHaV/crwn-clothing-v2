@@ -18,6 +18,9 @@ import {
   writeBatch,
   query,
   getDocs,
+  updateDoc,
+  arrayUnion,
+  Timestamp
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -95,10 +98,39 @@ export const createUserDocumentFromAuth = async (
       console.log("error creating the user", error.message);
     }
   }
-
   return userSnapshot;
 };
+export const createUserHistory = async (userAuth, product) => {
+  if (!userAuth) return
 
+  const userDocRef = doc(db, "users", userAuth.id);
+
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (userSnapshot.exists()) {
+    const Today = new Date();
+    const date = Today.toISOString().split('T')[0];
+    const history = {
+      date,
+      product
+    }
+    try {
+      await updateDoc(userDocRef, {
+        History: arrayUnion(history)
+      })
+    } catch (error) {
+      console.log("error updating the user", error.message);
+    }
+  }
+}
+export const getUserHistory = async (userAuth) => {
+  if (!userAuth) return
+
+  const userDocRef = doc(db, 'users', userAuth.id);
+  const userSnapshot = await getDoc(userDocRef)
+  console.log(userSnapshot.data());
+  return userSnapshot;
+}
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 

@@ -49,3 +49,9 @@ export const signOutSuccess = () =>
 
 export const signOutFailed = (error) =>
   createAction(USER_ACTION_TYPES.SIGN_OUT_FAILED, error);
+
+export const userUpdateHistoryFailed = (error) => createAction(USER_ACTION_TYPES.USER_HISTORY_FAILED, error);
+
+export const userUpdateHisotryStart = (userAuth, product) => createAction(USER_ACTION_TYPES.USER_HISTORY_START, { userAuth, product })
+
+export const userUpdateHistorySuccess = (userAuth) => createAction(USER_ACTION_TYPES.USER_HISTORY_SUCCESS, { userAuth })

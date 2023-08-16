@@ -9,6 +9,7 @@ import {
   signUpFailed,
   signOutSuccess,
   signOutFailed,
+  userUpdateHistoryFailed,
 } from './user.action';
 
 import {
@@ -18,6 +19,8 @@ import {
   signInAuthUserWithEmailAndPassword,
   createAuthUserWithEmailAndPassword,
   signOutUser,
+  getUserHistory,
+  createUserHistory
 } from '../../utils/firebase/firebase.utils';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
@@ -34,9 +37,10 @@ export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
 }
 
 export function* signInWithGoogle() {
+  const History = []
   try {
     const { user } = yield call(signInWithGooglePopup);
-    yield call(getSnapshotFromUserAuth, user, { History: ['You need to shoping first to access these tab'] });
+    yield call(getSnapshotFromUserAuth, user, { History });
   } catch (error) {
     yield put(signInFailed(error));
   }
@@ -86,7 +90,16 @@ export function* signOut() {
     yield put(signOutFailed(error));
   }
 }
-
+export function* userUpdateHistory({ payload: { userAuth, product } }) {
+  try {
+    yield call(createUserHistory, userAuth, product);
+  } catch (error) {
+    yield put(userUpdateHistoryFailed(error))
+  }
+}
+export function* GetUserHistory({ payload: { userAuth } }) {
+  yield call(getUserHistory, userAuth);
+}
 export function* signInAfterSignUp({ payload: { user, additionalDetails } }) {
   yield call(getSnapshotFromUserAuth, user, additionalDetails);
 }
@@ -115,6 +128,13 @@ export function* onSignOutStart() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOut);
 }
 
+export function* onUpdateHistoryStart() {
+  yield takeLatest(USER_ACTION_TYPES.USER_HISTORY_START, userUpdateHistory)
+}
+
+export function* onUpdateHistorySucess() {
+  yield takeLatest(USER_ACTION_TYPES.USER_HISTORY_SUCCESS, GetUserHistory)
+}
 export function* userSagas() {
   yield all([
     call(onCheckUserSession),
@@ -123,5 +143,6 @@ export function* userSagas() {
     call(onSignUpStart),
     call(onSignUpSuccess),
     call(onSignOutStart),
+    call(onUpdateHistoryStart)
   ]);
 }
