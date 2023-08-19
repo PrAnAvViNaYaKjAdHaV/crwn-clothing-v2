@@ -10,6 +10,7 @@ import {
   signOutSuccess,
   signOutFailed,
   userUpdateHistoryFailed,
+  userUpdateHistorySuccess
 } from './user.action';
 
 import {
@@ -20,7 +21,9 @@ import {
   createAuthUserWithEmailAndPassword,
   signOutUser,
   getUserHistory,
-  createUserHistory
+  createUserHistory,
+  updateUserHistory,
+  updateProductReview
 } from '../../utils/firebase/firebase.utils';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
@@ -93,12 +96,16 @@ export function* signOut() {
 export function* userUpdateHistory({ payload: { userAuth, product } }) {
   try {
     yield call(createUserHistory, userAuth, product);
+    const user = yield call(getUserHistory, userAuth);
+    yield put(userUpdateHistorySuccess({ ...user.data() }))
   } catch (error) {
     yield put(userUpdateHistoryFailed(error))
   }
 }
-export function* GetUserHistory({ payload: { userAuth } }) {
-  yield call(getUserHistory, userAuth);
+
+export function* userRevieUpdate({ payload: { name, user, rating, review } }) {
+  yield call(updateUserHistory, user)
+  yield call(updateProductReview, name, user.displayName, rating, review)
 }
 export function* signInAfterSignUp({ payload: { user, additionalDetails } }) {
   yield call(getSnapshotFromUserAuth, user, additionalDetails);
@@ -132,8 +139,8 @@ export function* onUpdateHistoryStart() {
   yield takeLatest(USER_ACTION_TYPES.USER_HISTORY_START, userUpdateHistory)
 }
 
-export function* onUpdateHistorySucess() {
-  yield takeLatest(USER_ACTION_TYPES.USER_HISTORY_SUCCESS, GetUserHistory)
+export function* onUpdateHistoryReview() {
+  yield takeLatest(USER_ACTION_TYPES.USER_HISTORY_REVIEW, userRevieUpdate)
 }
 export function* userSagas() {
   yield all([
@@ -143,6 +150,7 @@ export function* userSagas() {
     call(onSignUpStart),
     call(onSignUpSuccess),
     call(onSignOutStart),
-    call(onUpdateHistoryStart)
+    call(onUpdateHistoryStart),
+    call(onUpdateHistoryReview)
   ]);
 }

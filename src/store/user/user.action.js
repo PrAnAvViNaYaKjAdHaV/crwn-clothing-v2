@@ -12,7 +12,18 @@ CHECK_USER_SESSION: 'user/CHECK_USER_SESSION',
   SIGN_IN_FAILURE: 'user/SIGN_IN_FAILURE'
 
 */
+const NewHistory = (User, rating, review, date, id) => {
+  const { History } = User
+  const objectToModifyIndex = History.findIndex(obj => obj.date === date);
+  if (objectToModifyIndex !== -1) {
+    let objectToModify = History[objectToModifyIndex]
+    const ProductIndex = objectToModify.product.findIndex(obj => obj.id === id)
+    let Product = objectToModify.product[ProductIndex]
+    Product['rating'] = rating
+    Product['review'] = review
 
+  }
+}
 export const checkUserSession = () =>
   createAction(USER_ACTION_TYPES.CHECK_USER_SESSION);
 
@@ -54,4 +65,9 @@ export const userUpdateHistoryFailed = (error) => createAction(USER_ACTION_TYPES
 
 export const userUpdateHisotryStart = (userAuth, product) => createAction(USER_ACTION_TYPES.USER_HISTORY_START, { userAuth, product })
 
-export const userUpdateHistorySuccess = (userAuth) => createAction(USER_ACTION_TYPES.USER_HISTORY_SUCCESS, { userAuth })
+export const userUpdateHistorySuccess = (user) => createAction(USER_ACTION_TYPES.USER_HISTORY_SUCCESS, user)
+
+export const userUpdateReview = (user, rating, review, date, id, name) => {
+  NewHistory(user, rating, review, date, id)
+  return createAction(USER_ACTION_TYPES.USER_HISTORY_REVIEW, { name, user, rating, review })
+}

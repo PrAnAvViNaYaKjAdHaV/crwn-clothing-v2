@@ -20,7 +20,6 @@ import {
   getDocs,
   updateDoc,
   arrayUnion,
-  Timestamp
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -128,9 +127,48 @@ export const getUserHistory = async (userAuth) => {
 
   const userDocRef = doc(db, 'users', userAuth.id);
   const userSnapshot = await getDoc(userDocRef)
-  console.log(userSnapshot.data());
   return userSnapshot;
 }
+export const updateUserHistory = async (userAuth) => {
+  const userDocRef = doc(db, "users", userAuth.id);
+
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (userSnapshot.exists()) {
+
+    try {
+      await updateDoc(userDocRef, {
+        History: userAuth.History
+      })
+    } catch (error) {
+      console.log("error updating the user", error.message);
+    }
+  }
+}
+
+export const updateProductReview = async (name, userName, review, rating) => {
+  const userDocRef = doc(db, 'productReview', name.replaceAll(" ", ""))
+  const userSnapshot = await getDoc(userDocRef)
+
+  if (userSnapshot.exists()) {
+    try {
+      await updateDoc(userDocRef, {
+        Product: arrayUnion({ userName, review, rating })
+      })
+    } catch (error) {
+      console.log('error updating the user', error.message);
+    }
+  } else {
+    try {
+      await setDoc(userDocRef, {
+        Product: [{ userName, review, rating }]
+      })
+    } catch (error) {
+      console.log('error updating the user', error.message);
+    }
+  }
+}
+
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
