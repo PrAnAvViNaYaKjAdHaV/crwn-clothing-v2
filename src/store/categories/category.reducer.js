@@ -5,6 +5,7 @@ export const CATEGORIES_INITIAL_STATE = {
   isLoading: false,
   error: null,
   product: {},
+  product_review: []
 };
 
 export const categoriesReducer = (
@@ -22,6 +23,12 @@ export const categoriesReducer = (
       return { ...state, error: payload, isLoading: false };
     case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_PRODUCT:
       return { ...state, product: payload };
+    case CATEGORIES_ACTION_TYPES.FETCH_PRODUCT_REVIEW_START:
+      return { ...state, isLoading: true };
+    case CATEGORIES_ACTION_TYPES.FETCH_PRODUCT_REVIEW_FAILED:
+      return { ...state, isLoading: false, error: payload }
+    case CATEGORIES_ACTION_TYPES.FETCH_PRODUCT_REVIEW_SUCCESS:
+      return { ...state, isLoading: false, product_review: payload }
     default:
       return state;
   }

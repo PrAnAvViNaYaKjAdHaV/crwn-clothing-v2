@@ -20,6 +20,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
     case USER_ACTION_TYPES.SIGN_UP_FAILED:
     case USER_ACTION_TYPES.USER_HISTORY_FAILED:
       return { ...state, error: payload };
+    case USER_ACTION_TYPES.USER_HISTORY_REVIEW:
+      return { ...state }
     default:
       return state;
   }

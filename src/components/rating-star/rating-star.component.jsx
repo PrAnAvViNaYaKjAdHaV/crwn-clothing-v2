@@ -11,10 +11,11 @@ const Star = styled.span`
   color: ${props => (props.filled ? '#ffc107' : '#e4e5e9')};
 `;
 
-const Ratingstar = ({ initialRating, onChange }) => {
+const Ratingstar = ({ initialRating, onChange, check }) => {
     const [rating, setRating] = useState(initialRating || 0);
 
     const handleStarClick = newRating => {
+        if (check === false) return
         setRating(newRating);
         if (onChange) {
             onChange(newRating);

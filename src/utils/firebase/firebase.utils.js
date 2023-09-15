@@ -20,7 +20,9 @@ import {
   getDocs,
   updateDoc,
   arrayUnion,
+  onSnapshot
 } from "firebase/firestore";
+import { compileString } from "sass";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBvfxHv0hSi7gysCon27RC7gl6PVbk00Ec",
@@ -99,7 +101,7 @@ export const createUserDocumentFromAuth = async (
   }
   return userSnapshot;
 };
-export const createUserHistory = async (userAuth, product) => {
+export const createUserHistory = async (userAuth) => {
   if (!userAuth) return
 
   const userDocRef = doc(db, "users", userAuth.id);
@@ -107,16 +109,8 @@ export const createUserHistory = async (userAuth, product) => {
   const userSnapshot = await getDoc(userDocRef);
 
   if (userSnapshot.exists()) {
-    const Today = new Date();
-    const date = Today.toISOString().split('T')[0];
-    const history = {
-      date,
-      product
-    }
     try {
-      await updateDoc(userDocRef, {
-        History: arrayUnion(history)
-      })
+      await setDoc(userDocRef, { ...userAuth })
     } catch (error) {
       console.log("error updating the user", error.message);
     }
@@ -146,7 +140,7 @@ export const updateUserHistory = async (userAuth) => {
   }
 }
 
-export const updateProductReview = async (name, userName, review, rating) => {
+export const updateProductReview = async (name, userName, rating, review) => {
   const userDocRef = doc(db, 'productReview', name.replaceAll(" ", ""))
   const userSnapshot = await getDoc(userDocRef)
 
@@ -168,7 +162,11 @@ export const updateProductReview = async (name, userName, review, rating) => {
     }
   }
 }
-
+export const getReview = async (name) => {
+  const userDocRef = doc(db, 'productReview', name.replaceAll(" ", ""))
+  const userSnapshot = await getDoc(userDocRef)
+  return userSnapshot.data()
+}
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 

@@ -13,6 +13,8 @@ const CartItem = ({ cartItem }) => {
         </span>
       </ItemDetails>
     </CartItemContainer>
+
+
   );
 };
 

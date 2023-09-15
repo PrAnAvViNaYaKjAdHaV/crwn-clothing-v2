@@ -8,6 +8,7 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { userUpdateReview } from '../../store/user/user.action';
+import { checkUserSession } from '../../store/user/user.action';
 export default function History_product({ product, date }) {
     const { id, imageUrl, price, quantity, name } = product;
     const [rating, setRating] = useState(0);
@@ -17,6 +18,7 @@ export default function History_product({ product, date }) {
 
     const handleButton = () => {
         dispatch(userUpdateReview(User, rating, review, date, id, name));
+        dispatch(userUpdateReview())
     };
 
     const handleReviewChange = (event) => {
@@ -45,9 +47,10 @@ export default function History_product({ product, date }) {
                     <p>Rating</p>
                     {product.rating ? <Ratingstar
                         initialRating={product.rating}
+                        check={false}
                     /> : <Ratingstar
                         initialRating={rating}
-                        onChange={handleRatingChange}
+                        onChange={(data) => setRating(data)}
                     />}
 
                 </Rating>

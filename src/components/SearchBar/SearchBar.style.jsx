@@ -27,6 +27,6 @@ export const SearchResult = styled.div`
 `
 
 export const CustomSelect = styled.select`
-margin: 0;
+  margin: 0;
   flex:0.3;
 `

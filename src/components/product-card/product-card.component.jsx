@@ -11,17 +11,17 @@ import {
   Name,
   Price,
 } from "./product-card.styles";
-
+import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
-  const { name, price, imageUrl } = product;
+  const { name, price, imageUrl, id } = product;
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
-
+  const navigate = useNavigate()
   const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
 
   return (
     <ProductCartContainer>
-      <img src={imageUrl} alt={`${name}`} />
+      <img src={imageUrl} alt={`${name}`} onClick={() => navigate(`/${id}`)} />
       <Footer>
         <Name>{name}</Name>
         <Price>

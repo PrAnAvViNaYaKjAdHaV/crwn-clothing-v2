@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import "./payment-form.styles.css";
+import "./payment-form.styles.jsx";
 import { orderComplete } from "./../../store/cart/cart.action";
-import { userUpdateHisotryStart } from './../../store/user/user.action'
+import { userUpdateHistoryStart } from './../../store/user/user.action'
 import {
   selectCartItems,
   selectCartTotal,
 } from "../../store/cart/cart.selector";
 import emailjs from "emailjs-com";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { createUserHistory } from '../../utils/firebase/firebase.utils'
+import { CardElement } from "@stripe/react-stripe-js";
+import { MainContainer, PaymentformContainer } from "./payment-form.styles.jsx";
 const PaymentForm = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
@@ -30,7 +31,7 @@ const PaymentForm = () => {
     e.preventDefault();
     if (
       phoneNumber === null ||
-      item === [] ||
+      cartItems.length === 0 ||
       total === 0 ||
       User === null ||
       address === null
@@ -38,7 +39,7 @@ const PaymentForm = () => {
       console.log("return");
       return;
     } else {
-      dispatch(userUpdateHisotryStart(User, cartItems))
+      dispatch(userUpdateHistoryStart(User, cartItems))
       const emailConstant = {
         from_name: fromName,
         from_email: User.email,
@@ -66,7 +67,7 @@ const PaymentForm = () => {
     }
   }
   return (
-    <form className="contact-form" onSubmit={(e) => sendEmail(e)}>
+    <MainContainer onSubmit={(e) => sendEmail(e)}>
       <input type="hidden" name="contact_number" />
       <div>
         <label>Name</label>
@@ -111,7 +112,10 @@ const PaymentForm = () => {
         <label>Address</label>
         <textarea name="address" onChange={(e) => setAddress(e.target.value)} />
       </div>
+      <PaymentformContainer>
 
+      </PaymentformContainer>
+      <CardElement />
       <input
         type="submit"
         value="Order"
@@ -120,7 +124,7 @@ const PaymentForm = () => {
           background: User === null || total === "0" ? "gray" : "green",
         }}
       />
-    </form>
+    </MainContainer>
   );
 };
 export default PaymentForm;

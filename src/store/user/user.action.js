@@ -12,16 +12,33 @@ CHECK_USER_SESSION: 'user/CHECK_USER_SESSION',
   SIGN_IN_FAILURE: 'user/SIGN_IN_FAILURE'
 
 */
-const NewHistory = (User, rating, review, date, id) => {
+const NewHistoryReview = (User, rating, review, date, id) => {
   const { History } = User
   const objectToModifyIndex = History.findIndex(obj => obj.date === date);
   if (objectToModifyIndex !== -1) {
     let objectToModify = History[objectToModifyIndex]
     const ProductIndex = objectToModify.product.findIndex(obj => obj.id === id)
     let Product = objectToModify.product[ProductIndex]
+    console.log(Product)
+    console.log(rating, review)
     Product['rating'] = rating
     Product['review'] = review
-
+  }
+}
+const NewHistory = (userAuth, product) => {
+  const { History } = userAuth
+  const Today = new Date();
+  const date = Today.toISOString().split('T')[0];
+  const objectTofindDate = History.findIndex(obj => obj.date === date)
+  if (objectTofindDate === -1) {
+    const data = {
+      date: date,
+      product: [...product]
+    }
+    History.push(data)
+  } else {
+    const Date = History[objectTofindDate]
+    Date.product.push(...product)
   }
 }
 export const checkUserSession = () =>
@@ -63,11 +80,14 @@ export const signOutFailed = (error) =>
 
 export const userUpdateHistoryFailed = (error) => createAction(USER_ACTION_TYPES.USER_HISTORY_FAILED, error);
 
-export const userUpdateHisotryStart = (userAuth, product) => createAction(USER_ACTION_TYPES.USER_HISTORY_START, { userAuth, product })
+export const userUpdateHistoryStart = (userAuth, product) => {
+  NewHistory(userAuth, product)
+  return createAction(USER_ACTION_TYPES.USER_HISTORY_START, { userAuth })
+}
 
 export const userUpdateHistorySuccess = (user) => createAction(USER_ACTION_TYPES.USER_HISTORY_SUCCESS, user)
 
 export const userUpdateReview = (user, rating, review, date, id, name) => {
-  NewHistory(user, rating, review, date, id)
+  NewHistoryReview(user, rating, review, date, id)
   return createAction(USER_ACTION_TYPES.USER_HISTORY_REVIEW, { name, user, rating, review })
 }
