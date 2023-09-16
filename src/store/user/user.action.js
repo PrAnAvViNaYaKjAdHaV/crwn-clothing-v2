@@ -25,20 +25,31 @@ const NewHistoryReview = (User, rating, review, date, id) => {
     Product['review'] = review
   }
 }
-const NewHistory = (userAuth, product) => {
+const NewHistory = (userAuth, Products) => {
   const { History } = userAuth
   const Today = new Date();
   const date = Today.toISOString().split('T')[0];
   const objectTofindDate = History.findIndex(obj => obj.date === date)
-  if (objectTofindDate === -1) {
+  if (objectTofindDate === -1 || History === undefined) {
     const data = {
       date: date,
-      product: [...product]
+      product: [...Products]
     }
     History.push(data)
   } else {
     const Date = History[objectTofindDate]
-    Date.product.push(...product)
+    console.log(Date)
+    const { product } = Date
+    console.log(product.map((data) => data.id))
+    console.log(Products)
+    const ExistingProduct = product.findIndex(obj => parseInt(obj.id) === parseInt(Products[0].id))
+    console.log(ExistingProduct)
+    if (ExistingProduct !== -1) {
+      const Product = product[ExistingProduct]
+      Product['quantity'] += Products[0].quantity
+    } else {
+      Date.product.push(...Products)
+    }
   }
 }
 export const checkUserSession = () =>

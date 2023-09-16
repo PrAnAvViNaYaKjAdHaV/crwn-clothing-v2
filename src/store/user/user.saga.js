@@ -97,7 +97,6 @@ export function* userUpdateHistory({ payload: { userAuth } }) {
   try {
     yield call(createUserHistory, userAuth);
     const user = yield call(getUserHistory, userAuth);
-    user['id'] = userAuth.id
     yield put(userUpdateHistorySuccess({ ...user.data() }))
   } catch (error) {
     yield put(userUpdateHistoryFailed(error))

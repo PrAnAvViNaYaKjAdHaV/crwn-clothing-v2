@@ -36,7 +36,7 @@ export default function History() {
             ) : (
                 <Container>
                     <h1>
-                        {User.History === undefined
+                        {User.History.length === 0
                             ? 'You dont have any order history'
                             : 'Your order'}
                     </h1>
