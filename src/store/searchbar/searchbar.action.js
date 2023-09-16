@@ -29,3 +29,5 @@ export const setSearchBoxItem = (searchBoxItem, newItem, Soptions) => {
        const newSearchBoxItem = SearchResult(searchBoxItem, newItem, Soptions)
        return createAction(SEARCHBOX_ACTION_TYPE.SEARCH_RESULTS_RECEIVED, newSearchBoxItem)
 }
+
+export const setSearchBoxCleared = () => createAction(SEARCHBOX_ACTION_TYPE.SEARCH_RESULTS_CLEARED)

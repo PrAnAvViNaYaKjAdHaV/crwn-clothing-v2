@@ -35,7 +35,7 @@ export default function SearchBar() {
         <input type='text' placeholder='Search Product' value={searchInput} onChange={hangleOnchageSearch} />
       </SearchBarContainer>
       <SearchResult>
-        {SearchBoxItem && SearchBoxItem.map((d) => <Searchbarbox name={d.name} imageUrl={d.imageUrl} id={d.id} />)}
+        {SearchBoxItem && SearchBoxItem.map((d) => <Searchbarbox name={d.name} imageUrl={d.imageUrl} id={d.id} setSearchInput={setSearchInput} />)}
       </SearchResult>
     </SearchContainer>
   )

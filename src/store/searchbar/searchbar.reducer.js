@@ -1,7 +1,7 @@
-import {SEARCHBOX_ACTION_TYPE} from './searchbar.types'
+import { SEARCHBOX_ACTION_TYPE } from './searchbar.types'
 
-export const SEARCHBOX_INITIAL_STATE= {
-  search:'',
+export const SEARCHBOX_INITIAL_STATE = {
+  search: '',
   searchbox: [],
 };
 
@@ -19,6 +19,10 @@ export const searchbarReducer = (state = SEARCHBOX_INITIAL_STATE, action = {}) =
         ...state,
         searchbox: payload,
       };
+    case SEARCHBOX_ACTION_TYPE.SEARCH_RESULTS_CLEARED:
+      return {
+        ...state, searchbox: []
+      }
     default:
       return state;
   }

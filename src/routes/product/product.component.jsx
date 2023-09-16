@@ -32,12 +32,13 @@ export default function Product() {
         dispatch(categoriesProduct(map, ParamId));
     }, [ParamId, dispatch, map]);
     useEffect(() => {
+        if (Products === undefined) return
         dispatch(fetchReviewStart(Products.name));
     }, [dispatch, Products]);
     const addProductToCart = () => dispatch(addItemToCart(cartItems, Products));
     return (
         <Conatainer>
-            <ProductInfo>
+            {Products && <ProductInfo>
                 <div className="firstphase">
                     <h1>{Products.name}</h1>
                     <img
@@ -58,7 +59,8 @@ export default function Product() {
                         Add to card
                     </Button>
                 </div>
-            </ProductInfo>
+            </ProductInfo>}
+
             {isLoading ? (
                 <Spinner />
             ) : (

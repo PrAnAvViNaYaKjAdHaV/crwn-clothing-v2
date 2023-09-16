@@ -8,6 +8,7 @@ import {
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import PaymentForm from "../../components/payment-form/payment-form.component";
 import { BiRupee } from "react-icons/bi";
+import PaymentFormStripe from "../../components/paymentform/paymentform.component";
 import {
   CheckoutContainer,
   CheckoutHeader,
@@ -45,7 +46,8 @@ const Checkout = () => {
         Total: <BiRupee />
         {cartTotal}
       </Total>
-      <PaymentForm />
+      {/* <PaymentForm /> */}
+      <PaymentFormStripe />
     </CheckoutContainer>
   );
 };

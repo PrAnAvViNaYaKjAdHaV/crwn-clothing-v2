@@ -8,11 +8,13 @@ export const SearchBarContainer = styled.div`
   & input[type="text"]{
      margin: 0;
      flex: 1;
+     height: 100%;
   }
 `
 export const SearchContainer = styled.div`
    display: flex;
    width: 70%;
+     height: 3rem;
    flex-direction: column;
 `
 
@@ -29,4 +31,5 @@ export const SearchResult = styled.div`
 export const CustomSelect = styled.select`
   margin: 0;
   flex:0.3;
+  height:3rem;
 `
