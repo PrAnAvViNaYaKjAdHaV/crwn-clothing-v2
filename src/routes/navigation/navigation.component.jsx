@@ -16,6 +16,7 @@ import {
   NavLinks,
   NavLink,
   LogoContainer,
+  CustomSearchBar
 } from './navigation.styles';
 
 const Navigation = () => {
@@ -31,7 +32,9 @@ const Navigation = () => {
         <LogoContainer to='/'>
           <CrwnLogo className='logo' />
         </LogoContainer>
-        {currentUser && <SearchBar />}
+        <CustomSearchBar>
+          {currentUser && <SearchBar />}
+        </CustomSearchBar>
         <NavLinks>
           <NavLink to='/shop'>SHOP</NavLink>
           <NavLink to='/history'>

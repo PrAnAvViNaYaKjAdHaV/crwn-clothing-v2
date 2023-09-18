@@ -13,14 +13,19 @@ export const SearchBarContainer = styled.div`
 `
 export const SearchContainer = styled.div`
    display: flex;
-   width: 70%;
-     height: 3rem;
+   width:100%;
+   height: 3rem;
+   margin-top: 1rem;
    flex-direction: column;
+     @media screen and (max-width:800px) {
+      width: 100%;
+      height: 1rem;
+  }
 `
 
 export const SearchResult = styled.div`
   z-index: 1;
-  width: 75.5%;
+  width:100%;
   align-self: flex-end;
   border-bottom-left-radius: 1rem;
    border-bottom-right-radius: 1rem;

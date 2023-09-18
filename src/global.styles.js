@@ -9,6 +9,9 @@ export const Globalstyle = createGlobalStyle`
   font-family: 'Open Sans Condensed', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @media screen and (max-width:400px) {
+      padding: 10px 20px;
+  }
 }
 
 code {
