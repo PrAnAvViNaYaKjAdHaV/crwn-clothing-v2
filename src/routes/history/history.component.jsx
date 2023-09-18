@@ -16,6 +16,7 @@ export default function History() {
     const currentUser = useSelector(selectCurrentUser);
     const [User, setUser] = useState(currentUser || null)
     useEffect(() => {
+        if (User === null) return
         const user = onSnapshot(doc(db, 'users', currentUser.id), (doc) => {
             const data = doc.data()
             data['id'] = currentUser.id

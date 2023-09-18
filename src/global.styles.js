@@ -1,4 +1,9 @@
-body {
+/** @format */
+
+import { createGlobalStyle } from 'styled-components';
+
+export const Globalstyle = createGlobalStyle`
+ body {
   margin: 0;
   padding: 20px 40px;
   font-family: 'Open Sans Condensed', sans-serif;
@@ -21,3 +26,5 @@ a {
   margin: 0;
   padding: 0;
 }
+
+`;

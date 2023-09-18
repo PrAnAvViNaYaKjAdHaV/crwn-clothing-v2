@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { CartItemContainer, ItemDetails } from "./cart-item.styles";
 import { BiRupee } from "react-icons/bi";
-const CartItem = ({ cartItem }) => {
+const CartItem = memo(({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
   return (
     <CartItemContainer>
@@ -16,6 +17,6 @@ const CartItem = ({ cartItem }) => {
 
 
   );
-};
+});
 
 export default CartItem;
